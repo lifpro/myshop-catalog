@@ -3,8 +3,8 @@ package com.myshop.catalog_service.service;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ProduitService {
-    public ProduitService() {
+public class ProductService {
+    public ProductService() {
 
     }
     public void saveProduit() {
