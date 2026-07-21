@@ -7,16 +7,16 @@ public class ProductService {
     public ProductService() {
 
     }
-    public void saveProduit() {
+    public void save() {
     }
-    public void deleteProduit() {
+    public void delete() {
     }
-    public void updateProduit() {
+    public void update() {
     }
-    public void getProduit() {
+    public void getOne() {
     }
-    public void getAllProduit() {
+    public void findAll() {
     }
-    public void getProduitByCategorie() {
+    public void search() {
     }
 }
