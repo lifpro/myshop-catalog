@@ -5,6 +5,7 @@ import com.myshop.catalog_service.service.ProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -27,5 +28,16 @@ public class ProductController {
             @PathVariable Long id) {
         return ResponseEntity.ok(service.findById(id));
     }
+
+    @PostMapping
+    public ResponseEntity<ProductDTO> create(
+            @RequestBody ProductDTO dto) {
+        ProductDTO created = service.create(dto);
+        URI location = URI.create(
+                "/api/v1/products/" + created.id());
+        return ResponseEntity.created(location)
+                .body(created);
+    }
+
 
 }
