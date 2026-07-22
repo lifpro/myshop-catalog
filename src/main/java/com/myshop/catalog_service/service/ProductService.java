@@ -1,5 +1,6 @@
 package com.myshop.catalog_service.service;
 
+import com.myshop.catalog_service.config.CatalogProperties;
 import com.myshop.catalog_service.dto.ProductDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,9 @@ import java.util.List;
 @Slf4j
 @Service
 public class ProductService {
-    public ProductService() {
+    private final CatalogProperties catalogProperties;
+    public ProductService(CatalogProperties catalogProperties) {
+        this.catalogProperties = catalogProperties;
 
     }
     public ProductDTO create(ProductDTO dto) {
@@ -24,9 +27,32 @@ public class ProductService {
                 dto.categoryName()
         );
     }
-    public void delete() {
+    public void delete(Long id) {
+        
     }
-    public void update() {
+    public ProductDTO update(Long id, ProductDTO dto) {
+        return new ProductDTO(
+            id,
+            dto.name(),
+            dto.description(),
+            dto.price(),
+            dto.stockQuantity(),
+            dto.categoryId(),
+            dto.categoryName()
+        );
+    }
+
+    public ProductDTO patch(Long id, ProductDTO dto) {
+        ProductDTO existing = findById(id);
+        return new ProductDTO(
+            id,
+            dto.name() != null ? dto.name() : existing.name(),
+            dto.description() != null ? dto.description() : existing.description(),
+            dto.price() != null ? dto.price() : existing.price(),
+            dto.stockQuantity() != null ? dto.stockQuantity() : existing.stockQuantity(),
+            dto.categoryId() != null ? dto.categoryId() : existing.categoryId(),
+            dto.categoryName() != null ? dto.categoryName() : existing.categoryName()
+        );
     }
     public ProductDTO findById(Long id) {
        log.info("Recuperer le produit dont l'id="+id);
