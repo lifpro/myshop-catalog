@@ -1,0 +1,18 @@
+services:
+  myshop-mysql:
+    image: mysql:8.0
+    container_name: myshop-catalog-mysql
+    restart: always
+    environment:
+      # Doit correspondre à vos identifiants applicatifs
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: myshop_catalog
+      MYSQL_USER: dev
+      MYSQL_PASSWORD: dev
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_catalog_data:/var/lib/mysql
+
+volumes:
+  mysql_catalog_data:
