@@ -2,6 +2,7 @@ package com.myshop.catalog_service.controller;
 
 import com.myshop.catalog_service.dto.ProductDTO;
 import com.myshop.catalog_service.service.ProductService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +22,14 @@ public class ProductController {
     public List<ProductDTO> getAll(
             @RequestParam(required = false) Long categoryId) {
         return service.findAll(categoryId);
+    }
+    @GetMapping("/search")
+    public Page<ProductDTO> search(
+            @RequestParam(required = false) Long categoryId,
+            @RequestParam(required = true) int page,
+            @RequestParam(required = true) int size,
+            @RequestParam(required = true) String sortBy) {
+        return service.search(categoryId,page,size,sortBy);
     }
 
     @GetMapping("/{id}")
