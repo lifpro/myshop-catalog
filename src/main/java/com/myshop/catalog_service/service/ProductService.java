@@ -1,7 +1,12 @@
 package com.myshop.catalog_service.service;
 
 import com.myshop.catalog_service.dto.ProductDTO;
+import com.myshop.catalog_service.model.Product;
+import com.myshop.catalog_service.repository.ProductRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -10,8 +15,9 @@ import java.util.List;
 @Slf4j
 @Service
 public class ProductService {
-    public ProductService() {
-
+    private final ProductRepository repository;
+    public ProductService(ProductRepository repository) {
+        this.repository=repository;
     }
     public ProductDTO create(ProductDTO dto) {
         return  new ProductDTO(
@@ -24,9 +30,10 @@ public class ProductService {
                 dto.categoryName()
         );
     }
-    public void delete() {
+    public void delete(Long id) {
     }
-    public void update() {
+    public ProductDTO update(Long id,ProductDTO dto) {
+        return dto;
     }
     public ProductDTO findById(Long id) {
        log.info("Recuperer le produit dont l'id="+id);
@@ -39,6 +46,22 @@ public class ProductService {
         log.info("Recuperer la liste des produits de la catégorie "+categoryId);
         return null;
     }
-    public void search() {
+    public Page<ProductDTO> search(Long categoryId,
+                                   int page, int size, String sortBy) {
+        var pageable = PageRequest.of(page, size,
+                Sort.by(sortBy).ascending());
+        return repository
+                .findByCategoryId(categoryId, pageable)
+                .map(this::toDto);
     }
+
+
+    private ProductDTO toDto(Product p) {
+        return new ProductDTO(p.getId(), p.getName(),
+                p.getDescription(), p.getPrice(),
+                p.getStockQuantity(),
+                p.getCategory().getId(),
+                p.getCategory().getName());
+    }
+
 }

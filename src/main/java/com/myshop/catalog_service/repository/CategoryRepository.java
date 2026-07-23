@@ -1,9 +1,9 @@
 package com.myshop.catalog_service.repository;
 
-import com.myshop.catalog_service.model.Product;
+import com.myshop.catalog_service.model.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ProductRepository
-        extends JpaRepository<Product, Long> {
+public interface CategoryRepository
+        extends JpaRepository<Category, Long> {
 
 }

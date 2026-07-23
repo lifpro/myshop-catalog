@@ -1,14 +1,9 @@
 package com.myshop.catalog_service.dto;
 
-import java.math.BigDecimal;
 
-public record ProductDTO(
+
+public record CategoryDTO(
         Long id,
-        String name,
-        String description,
-        BigDecimal price,
-        Integer stockQuantity,
-        Long categoryId,
-        String categoryName) {
+        String name) {
 }
 
