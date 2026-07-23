@@ -26,7 +26,7 @@ public class ProductService {
         this.categoryRepository=categoryRepository;
     }
     public ProductDTO create(ProductDTO dto) {
-        return  toDto(this.repository.save(toEntity(dto)));
+        return toDto(this.repository.save(toEntity(dto)));
     }
     public void delete(Long id) {
     }
@@ -54,9 +54,13 @@ public class ProductService {
     }
     private Product toEntity(ProductDTO p) {
         Category cat=categoryRepository.findById(p.categoryId()).orElseThrow();
-        return new Product(p.name()
-                ,p.description(),
-                p.price(),p.stockQuantity(),cat);
+        Product p1=new Product();
+        p1.setCategory(cat);
+        p1.setName(p.name());
+        p1.setDescription(p.description());
+        p1.setPrice(p.price());
+        p1.setStockQuantity(p.stockQuantity());
+        return p1;
     }
 
     private ProductDTO toDto(Product p) {
