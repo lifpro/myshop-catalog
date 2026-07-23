@@ -1,7 +1,10 @@
 package com.myshop.catalog_service.service;
 
+import com.myshop.catalog_service.dto.CategoryDTO;
 import com.myshop.catalog_service.dto.ProductDTO;
+import com.myshop.catalog_service.model.Category;
 import com.myshop.catalog_service.model.Product;
+import com.myshop.catalog_service.repository.CategoryRepository;
 import com.myshop.catalog_service.repository.ProductRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -16,19 +19,14 @@ import java.util.List;
 @Service
 public class ProductService {
     private final ProductRepository repository;
-    public ProductService(ProductRepository repository) {
+    private final CategoryRepository categoryRepository;
+    public ProductService(ProductRepository repository
+            ,CategoryRepository categoryRepository) {
         this.repository=repository;
+        this.categoryRepository=categoryRepository;
     }
     public ProductDTO create(ProductDTO dto) {
-        return  new ProductDTO(
-                23L,
-                dto.name(),
-                dto.description(),
-                dto.price(),
-                dto.stockQuantity(),
-                dto.categoryId(),
-                dto.categoryName()
-        );
+        return  toDto(this.repository.save(toEntity(dto)));
     }
     public void delete(Long id) {
     }
@@ -54,7 +52,12 @@ public class ProductService {
                 .findByCategoryId(categoryId, pageable)
                 .map(this::toDto);
     }
-
+    private Product toEntity(ProductDTO p) {
+        Category cat=categoryRepository.findById(p.categoryId()).orElseThrow();
+        return new Product(p.name()
+                ,p.description(),
+                p.price(),p.stockQuantity(),cat);
+    }
 
     private ProductDTO toDto(Product p) {
         return new ProductDTO(p.getId(), p.getName(),
